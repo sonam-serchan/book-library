@@ -7,7 +7,7 @@ const inputs = [
   { name: "lName", label: "Last Name", placeholder: "Enter last name", type: "text", required: true },
   { name: "phone", label: "Phone", placeholder: "04## ### ###", type: "number", required: true },
   { name: "email", label: "Email", placeholder: "abc@abc.com", type: "email", required: true },
-  { name: "password", label: "Password", placeholder: "********", type: "password", required: true },
+  { name: "password", label: "Password", placeholder: "********", type: "password", required: true, minLength: 6 },
   { name: "confirmPassword", label: "Confirm Password", placeholder: "********", type: "password", required: true },
 ]
 
@@ -19,7 +19,7 @@ const AdminSignup = () => {
           <h1>Admin Signup</h1>
           <Form>
             {inputs.map(input => (
-              <CustomInput key={input.name} label={input.label} placeholder={input.placeholder} type={input.type} />
+              <CustomInput key={input.name} label={input.label} {...input} />
             ))}
 
             <Button variant="primary" type="submit">
