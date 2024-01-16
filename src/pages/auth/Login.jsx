@@ -1,7 +1,11 @@
+import BaseLayout from "../../components/layout/BaseLayout";
+
 const Login = () => {
   return (
     <>
-      Login component
+      <BaseLayout>
+        Login component
+      </BaseLayout>
     </>
   )
 }

@@ -1,7 +1,11 @@
+import BaseLayout from "../../components/layout/BaseLayout";
+
 const ResetPassword = () => {
   return (
     <>
-      ResetPassword component
+      <BaseLayout>
+        ResetPassword component
+      </BaseLayout>
     </>
   )
 }
