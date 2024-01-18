@@ -26,6 +26,16 @@ const AdminSignup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // check if password match
+    const { password, confirmPassword } = formData;
+    if (password !== confirmPassword) {
+      return toast.error("Password did not match!");
+    }
+
+    // validate inputs
+    // Todo: 
+
     toast("Admin form data submitted!");
   }
   return (
