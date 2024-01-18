@@ -1,6 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import BaseLayout from "../../components/layout/BaseLayout";
 import CustomInput from "../../components/customInput/customInput";
+import { useState } from "react";
 
 const inputs = [
   { name: "fName", label: "First Name", placeholder: "Enter first name", type: "text", required: true },
@@ -10,16 +11,30 @@ const inputs = [
   { name: "password", label: "Password", placeholder: "********", type: "password", required: true, minLength: 6 },
   { name: "confirmPassword", label: "Confirm Password", placeholder: "********", type: "password", required: true },
 ]
-
 const AdminSignup = () => {
+  const [formData, setFormData] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value }  = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('submitted', formData)
+  }
   return (
     <>
       <BaseLayout>
         <div className="p-3 border shadow rounded admin-form">
           <h1>Admin Signup</h1>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             {inputs.map(input => (
-              <CustomInput key={input.name} label={input.label} {...input} />
+              <CustomInput key={input.name} label={input.label} {...input} onChange={handleChange} />
             ))}
 
             <Button variant="primary" type="submit">
