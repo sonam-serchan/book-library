@@ -3,6 +3,8 @@ import BaseLayout from "../../components/layout/BaseLayout";
 import CustomInput from "../../components/customInput/customInput";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase-config";
 
 const inputs = [
   { name: "fName", label: "First Name", placeholder: "Enter first name", type: "text", required: true },
@@ -24,19 +26,42 @@ const AdminSignup = () => {
     });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // check if password match
-    const { password, confirmPassword } = formData;
+    const { email, password, confirmPassword } = formData;
     if (password !== confirmPassword) {
       return toast.error("Password did not match!");
     }
 
-    // validate inputs
-    // Todo: 
+    const signupPromise = createUserWithEmailAndPassword(auth, email, password);
+    toast.promise(signupPromise, {
+      pending: "In progress..."
+    });
 
-    toast("Admin form data submitted!");
+    try {
+      const userCredential = await signupPromise;
+      console.log(userCredential.user);
+
+      // intialize firestore database
+      // setDoc -> create a document in db
+      // send formData -> except password, confirmPassword
+      // link uid
+      // once success -> see result 
+      // user data
+      // navigate to login
+
+      toast("User created successfully!");
+    } catch (error) {
+      const errorCode = error.code;
+        if(errorCode.includes("auth/email-already-in-use")) {
+          toast.error("Account already exists!");
+        } else {
+          toast.error(error.message);
+        }
+    }
+    
   }
   return (
     <>
