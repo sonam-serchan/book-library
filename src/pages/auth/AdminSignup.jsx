@@ -2,6 +2,7 @@ import { Button, Form } from "react-bootstrap";
 import BaseLayout from "../../components/layout/BaseLayout";
 import CustomInput from "../../components/customInput/customInput";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const inputs = [
   { name: "fName", label: "First Name", placeholder: "Enter first name", type: "text", required: true },
@@ -25,7 +26,7 @@ const AdminSignup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submitted', formData)
+    toast("Admin form data submitted!");
   }
   return (
     <>
