@@ -4,7 +4,9 @@ import CustomInput from "../../components/customInput/customInput";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase-config";
+import { auth, db } from "../../firebase-config";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const inputs = [
   { name: "fName", label: "First Name", placeholder: "Enter first name", type: "text", required: true },
@@ -15,6 +17,7 @@ const inputs = [
   { name: "confirmPassword", label: "Confirm Password", placeholder: "********", type: "password", required: true },
 ]
 const AdminSignup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
@@ -30,7 +33,8 @@ const AdminSignup = () => {
     e.preventDefault();
 
     // check if password match
-    const { email, password, confirmPassword } = formData;
+    const { password, confirmPassword, ...restFormData } = formData;
+    const { email } = formData;
     if (password !== confirmPassword) {
       return toast.error("Password did not match!");
     }
@@ -42,10 +46,16 @@ const AdminSignup = () => {
 
     try {
       const userCredential = await signupPromise;
-      console.log(userCredential.user);
+      const {uid} = userCredential.user;
 
       // intialize firestore database
       // setDoc -> create a document in db
+      // Add a new document in collection "cities"
+      await setDoc(doc(db, "users", uid), {
+        ...restFormData,
+        uid
+      });
+
       // send formData -> except password, confirmPassword
       // link uid
       // once success -> see result 
@@ -53,6 +63,7 @@ const AdminSignup = () => {
       // navigate to login
 
       toast("User created successfully!");
+      navigate("/login");
     } catch (error) {
       const errorCode = error.code;
         if(errorCode.includes("auth/email-already-in-use")) {
