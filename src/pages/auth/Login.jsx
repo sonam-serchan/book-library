@@ -3,6 +3,8 @@ import BaseLayout from "../../components/layout/BaseLayout";
 import CustomInput from "../../components/customInput/customInput";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase-config";
 
 const inputs = [
   { name: "email", label: "Email", placeholder: "abc@abc.com", type: "email", required: true },
@@ -21,13 +23,27 @@ const Login = () => {
     });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // validate inputs
     // Todo: 
+    const { email, password } = formData;
+    try {
+      const signInPromise = signInWithEmailAndPassword(auth, email, password);
+      toast.promise(signInPromise, {
+        pending: "In progress..."
+      });
+      const userCredential = await signInPromise;
+      console.log(userCredential.user);
 
-    toast("Logged in!");
+      toast("Logged in!");
+    } catch (e) {
+      const errorCode = e.code;
+      if(errorCode.includes("auth/invalid-credential")){
+        toast.error("Invalid email or password!");
+      }
+    }
   }
 
   return (
