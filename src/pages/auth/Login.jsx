@@ -7,8 +7,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserInfo } from "../../redux/auth/authSlice";
 import { useEffect } from "react";
+import { getUserInfoAction } from "../../redux/auth/authAction";
 
 const inputs = [
   { name: "email", label: "Email", placeholder: "abc@abc.com", type: "email", required: true },
@@ -44,10 +44,8 @@ const Login = () => {
       const userCredential = await signInPromise;
       const { user } = userCredential; 
 
-      // store the user info in redux store
-      dispatch(setUserInfo(user));
-
-      toast("Logged in!");
+      // getUserInfoAction(user.uid, dispatch);
+      dispatch(getUserInfoAction(user.uid))
     } catch (e) {
       const errorCode = e.code;
       if(errorCode.includes("auth/invalid-credential")){
