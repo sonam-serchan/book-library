@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from "react";
 import { getUserInfoAction } from "../../redux/auth/authAction";
+import { Link } from "react-router-dom";
 
 const inputs = [
   { name: "email", label: "Email", placeholder: "abc@abc.com", type: "email", required: true },
@@ -76,6 +77,7 @@ const Login = () => {
               Submit
             </Button>
           </Form>
+          Forget password? <Link to={"/reset-password"}>Reset Password</Link>
         </div>
       </BaseLayout>
     </>

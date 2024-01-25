@@ -3,12 +3,17 @@ import BaseLayout from "../../components/layout/BaseLayout";
 import CustomInput from "../../components/customInput/customInput";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../../firebase-config";
+import { useNavigate } from "react-router-dom";
 
 const inputs = [
   { name: "email", label: "Email", placeholder: "abc@abc.com", type: "email", required: true },
 ]
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
@@ -22,11 +27,17 @@ const ResetPassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { email } = formData;
 
-    // validate inputs
-    // Todo: 
-
-    toast("Password reset!");
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        toast.success("Please check your email!");
+        navigate("/login");
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        toast.error("Something went wrong! ", errorMessage);
+      });
   }
 
   return (
@@ -43,6 +54,7 @@ const ResetPassword = () => {
               Submit
             </Button>
           </Form>
+          Want to login? <Link to={"/login"}>Login</Link>
         </div>
       </BaseLayout>
     </>
