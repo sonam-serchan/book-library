@@ -3,3 +3,8 @@
   margin: auto;
   margin-top: 4rem;
 }
+
+.main-content {
+  min-height: 80vh;
+  padding: 20px;
+}
