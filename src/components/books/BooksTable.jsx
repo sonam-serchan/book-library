@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { Table } from "react-bootstrap"
+import { Button, Table } from "react-bootstrap"
 import { getBookListAction } from "../../redux/books/bookAction";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const BooksTable = () => {
   const dispatch = useDispatch();
@@ -21,8 +22,9 @@ const BooksTable = () => {
           <th>#</th>
           <th>ISBN</th>
           <th>Image</th>
-          <th>Title</th>
+          <th>Info</th>
           <th>Author</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -38,6 +40,11 @@ const BooksTable = () => {
                 <p>{summary}</p>
               </td>
               <td>{author}</td>
+              <td>
+                <Link to={`/books/edit/${id}`}>
+                  <Button variant="warning">Edit</Button>
+                </Link>
+              </td>
             </tr>
           ))
         }
