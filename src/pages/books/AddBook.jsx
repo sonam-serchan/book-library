@@ -5,6 +5,7 @@ import { useState } from "react";
 import { addBookAction } from "../../redux/books/bookAction";
 import { toast } from "react-toastify";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const inputs = [
   { name: "isbn", label: "ISBN", placeholder: "ISBN#", required: true },
@@ -62,6 +63,9 @@ const AddBook = () => {
 
   return (
     <AdminLayout title={"Add Book"}>
+      <Link to={"/books"}>
+        <Button>Go back</Button>
+      </Link>
       <div className="p-3 border shadow rounded admin-form">
           <h1>Book Info</h1>
           <Form onSubmit={handleSubmit} ref={formRef}>
@@ -69,7 +73,7 @@ const AddBook = () => {
               <CustomInput
                 key={input.name}
                 label={input.label}
-                value={formData[input.name]}
+                // value={formData[input.name]}
                 onChange={handleChange}
                 {...input} 
               />
