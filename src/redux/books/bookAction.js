@@ -1,7 +1,7 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import { toast } from "react-toastify";
-import { setBookList } from "./bookSlice";
+import { setBookList, setSelectedBook } from "./bookSlice";
 
 export const addBookAction = async (bookInfo) => {
   try {
@@ -37,3 +37,39 @@ export const getBookListAction = () => async (dispatch) => {
     console.log(e);
   }
 }
+
+export const updateBookAction = async ({ id, ...restBook }) => {
+  try {
+    const bookRef = doc(db, "books", id);
+    await setDoc(bookRef, restBook, { merge: true })
+    toast.success("Book updated!")
+  } catch(e) {
+    console.log(e);
+  }
+}
+
+export const getBookByIdAction = (id) => async (dispatch) => {
+  try {
+    // get the user document from firestore database
+    const docRef = doc(db, "books", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      dispatch(setSelectedBook(docSnap.data()))
+    } else {
+      toast.error("Book not found!")
+      // navig
+    }
+    
+  } catch(e) {
+    console.log(e);
+  } 
+}
+
+
+
+
+
+
+
+
+

@@ -3,8 +3,11 @@ import AdminLayout from "../../components/layout/AdminLayout";
 import { Button, Form } from "react-bootstrap";
 import CustomInput from "../../components/customInput/customInput";
 import { useRef } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getBookByIdAction, getBookListAction, updateBookAction } from "../../redux/books/bookAction";
+import { useDispatch } from "react-redux";
 
 const inputs = [
   { name: "isbn", label: "ISBN", placeholder: "ISBN#", required: true },
@@ -15,12 +18,23 @@ const inputs = [
   { name: "url", label: "Image url", placeholder: "https://image-url.com", required: true },
 ]
 
+// for controlled inputs
+const intialBookValue = {
+  isbn: "",
+  title: "",
+  author: "",
+  summary: "",
+  year: "",
+  url: "",
+}
+
 const EditBook = () => {
+  const { selectedBook } = useSelector(state => state.book);
+  const dispatch = useDispatch();
   const params = useParams();
-  console.log(params);
-  
+
   const formRef = useRef();
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(intialBookValue);
 
   const handleChange = (e) => {
     const { name, value }  = e.target;
@@ -35,11 +49,21 @@ const EditBook = () => {
     e.preventDefault();
 
     try {
-      console.log('usbmitted')
+      updateBookAction(formData);
+      dispatch(getBookListAction());
     } catch (e) {
       console.log(e)
     }
   }
+
+  useEffect(() => {
+    dispatch(getBookByIdAction(params.id));
+  }, [params.id]);
+
+  useEffect(() => {
+    // const bookEdit = bookList.find(book => book.id === params.id);
+    setFormData(selectedBook);
+  }, [selectedBook])
 
   return (
     <AdminLayout title={"Edit book"}>
@@ -53,7 +77,7 @@ const EditBook = () => {
               <CustomInput
                 key={input.name}
                 label={input.label}
-                // value={formData[input.name]}
+                value={formData[input.name]}
                 onChange={handleChange}
                 {...input} 
               />
