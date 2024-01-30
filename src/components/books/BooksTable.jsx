@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Button, Table } from "react-bootstrap"
-import { getBookListAction } from "../../redux/books/bookAction";
+import { deleteBookAction, getBookListAction } from "../../redux/books/bookAction";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +10,10 @@ const BooksTable = () => {
   // get books list from redux
   const { bookList } = useSelector(state => state.book);
   // display the books in the table
+
+  const handleDelete = (id) => {
+    dispatch(deleteBookAction(id));
+  }
 
   useEffect(() => {
     dispatch(getBookListAction());
@@ -44,6 +48,9 @@ const BooksTable = () => {
                 <Link to={`/books/edit/${id}`}>
                   <Button variant="warning">Edit</Button>
                 </Link>
+                <Button variant="danger" onClick={() => handleDelete(id)}>
+                  Delete
+                </Button>
               </td>
             </tr>
           ))

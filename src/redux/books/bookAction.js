@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import { toast } from "react-toastify";
 import { setBookList, setSelectedBook } from "./bookSlice";
@@ -68,6 +68,22 @@ export const getBookByIdAction = (id) => async (dispatch) => {
   } catch(e) {
     console.log(e);
   } 
+}
+
+
+export const deleteBookAction = (id) => async (dispatch) => {
+  try {
+    const docPromise = deleteDoc(doc(db, "books", id));
+    toast.promise(docPromise, {
+      pending: 'In progress...'
+    })
+    await docPromise;
+
+    dispatch(getBookListAction())
+    toast.success("Book deleted!")
+  } catch(e) {
+    console.log(e)
+  }
 }
 
 
