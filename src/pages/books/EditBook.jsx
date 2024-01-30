@@ -62,7 +62,9 @@ const EditBook = () => {
 
   useEffect(() => {
     // const bookEdit = bookList.find(book => book.id === params.id);
-    setFormData(selectedBook);
+    if (selectedBook.id) {
+      setFormData(selectedBook);
+    }
   }, [selectedBook])
 
   return (

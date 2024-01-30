@@ -53,8 +53,13 @@ export const getBookByIdAction = (id) => async (dispatch) => {
     // get the user document from firestore database
     const docRef = doc(db, "books", id);
     const docSnap = await getDoc(docRef);
+
     if (docSnap.exists()) {
-      dispatch(setSelectedBook(docSnap.data()))
+      const book = {
+        ...docSnap.data(),
+        id
+      }
+      dispatch(setSelectedBook(book))
     } else {
       toast.error("Book not found!")
       // navig
