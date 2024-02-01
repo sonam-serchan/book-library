@@ -38,10 +38,11 @@ export const getBookListAction = () => async (dispatch) => {
   }
 }
 
-export const updateBookAction = async ({ id, ...restBook }) => {
+export const updateBookAction = ({ id, ...restBook }) => async (dispatch) => {
   try {
     const bookRef = doc(db, "books", id);
     await setDoc(bookRef, restBook, { merge: true })
+    dispatch(getBookListAction());
     toast.success("Book updated!")
   } catch(e) {
     console.log(e);

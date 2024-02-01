@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from "react";
 import { getUserInfoAction } from "../../redux/auth/authAction";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const inputs = [
   { name: "email", label: "Email", placeholder: "abc@abc.com", type: "email", required: true },
@@ -19,6 +20,7 @@ const inputs = [
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const [formData, setFormData] = useState({});
   const { userInfo } = useSelector(state => state.auth);
 
@@ -59,7 +61,11 @@ const Login = () => {
     if (userInfo.uid) {
       // if there is uid (at least one property in userInfo
       // -> state, we assume the user is logged in)
-      navigate("/dashboard");
+      if (location.state.path) {
+        navigate(location.state.path);
+      } else {
+        navigate("/dashboard");
+      }
     }
   }, [userInfo]);
 

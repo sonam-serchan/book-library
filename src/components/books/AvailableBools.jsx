@@ -8,7 +8,6 @@ import { getBookListAction } from "../../redux/books/bookAction";
 const AvailableBooks = () => {
   const dispatch = useDispatch();
   const { bookList } = useSelector(state => state.book);
-  console.log(bookList)
 
   useEffect(() => {
     dispatch(getBookListAction());

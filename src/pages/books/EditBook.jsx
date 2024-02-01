@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getBookByIdAction, getBookListAction, updateBookAction } from "../../redux/books/bookAction";
+import { getBookByIdAction, updateBookAction } from "../../redux/books/bookAction";
 import { useDispatch } from "react-redux";
 
 const inputs = [
@@ -49,8 +49,7 @@ const EditBook = () => {
     e.preventDefault();
 
     try {
-      updateBookAction(formData);
-      dispatch(getBookListAction());
+      dispatch(updateBookAction(formData));
     } catch (e) {
       console.log(e)
     }
