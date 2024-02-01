@@ -61,7 +61,7 @@ const Login = () => {
     if (userInfo.uid) {
       // if there is uid (at least one property in userInfo
       // -> state, we assume the user is logged in)
-      if (location.state.path) {
+      if (location.state?.path) {
         navigate(location.state.path);
       } else {
         navigate("/dashboard");

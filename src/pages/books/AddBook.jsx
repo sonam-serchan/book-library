@@ -28,7 +28,7 @@ const inputs = [
 
 const AddBook = () => {
   const formRef = useRef();
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ isAvailable: true });
 
   const handleChange = (e) => {
     const { name, value }  = e.target;

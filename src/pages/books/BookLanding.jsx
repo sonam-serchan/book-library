@@ -65,7 +65,7 @@ const BookLanding = () => {
     } else {
       navigate("/")
     }
-  }, []);
+  }, [bookList, id, navigate]);
 
   return (
     <BaseLayout>
@@ -85,7 +85,12 @@ const BookLanding = () => {
             <p>{selectedBook.summary}</p>
             <div>
               {userInfo.uid ? (
-                <Button onClick={handleOnBorrow}>Borrow</Button>
+                selectedBook.isAvailable ?
+                  <Button onClick={handleOnBorrow}>Borrow</Button>
+                :
+                  <Button disabled onClick={handleOnBorrow}>
+                    Available from {new Date(selectedBook.availableFrom).toLocaleDateString()}
+                  </Button>
               )
               : (
                 <Link to={"/login"} state={{ path: `/books/${id}` }}>
