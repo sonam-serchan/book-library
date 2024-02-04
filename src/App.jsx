@@ -12,6 +12,7 @@ import History from './pages/history/History'
 import PrivateRoute from './components/privateRoute/PrivateRoute'
 import Home from './pages/home/Home'
 import BookLanding from './pages/books/BookLanding'
+import Signup from './pages/auth/Signup'
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
         <Route path='/' element={<Home />}></Route>
         <Route path='/books/:id' element={<BookLanding />}></Route>
         <Route path='/login' element={<Login />}></Route>
-        <Route path='/admin-signup' element={<AdminSignup />}></Route>
+        <Route path='/signup' element={<Signup />}></Route>
         <Route path='/reset-password' element={<ResetPassword />}></Route>
 
         {/* Private routes */}

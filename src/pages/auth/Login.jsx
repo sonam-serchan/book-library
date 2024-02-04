@@ -64,7 +64,7 @@ const Login = () => {
       if (location.state?.path) {
         navigate(location.state.path);
       } else {
-        navigate("/dashboard");
+        navigate("/");
       }
     }
   }, [userInfo]);
@@ -84,6 +84,9 @@ const Login = () => {
             </Button>
           </Form>
           Forget password? <Link to={"/reset-password"}>Reset Password</Link>
+          <div>
+            Don't have an account? <Link to={"/signup"}>Sign up</Link>
+          </div>
         </div>
       </BaseLayout>
     </>

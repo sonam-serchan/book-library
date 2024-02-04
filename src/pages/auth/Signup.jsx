@@ -16,9 +16,9 @@ const inputs = [
   { name: "password", label: "Password", placeholder: "********", type: "password", required: true, minLength: 6 },
   { name: "confirmPassword", label: "Confirm Password", placeholder: "********", type: "password", required: true },
 ]
-const AdminSignup = () => {
+const Signup = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ role: 'admin'});
+  const [formData, setFormData] = useState({ role: 'student' });
 
   const handleChange = (e) => {
     const { name, value }  = e.target;
@@ -78,7 +78,7 @@ const AdminSignup = () => {
     <>
       <BaseLayout>
         <div className="p-3 border shadow rounded admin-form">
-          <h1>Admin Signup</h1>
+          <h1>Signup</h1>
           <Form onSubmit={handleSubmit}>
             {inputs.map(input => (
               <CustomInput key={input.name} label={input.label} {...input} onChange={handleChange} />
@@ -94,4 +94,4 @@ const AdminSignup = () => {
   )
 }
 
-export default AdminSignup;
+export default Signup;
