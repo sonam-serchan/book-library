@@ -16,6 +16,7 @@ const Sidebar = () => {
           <>
             <li><Link to={"/dashboard"} className="nav-link">Dashboard</Link></li>
             <li><Link to={"/books"} className="nav-link">Book</Link></li>
+            <li><Link to={"/admin-signup"} className="nav-link">Add Admin</Link></li>
           </>
         }
       </ul>

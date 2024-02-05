@@ -1,5 +1,4 @@
 import { Button, Form } from "react-bootstrap";
-import BaseLayout from "../../components/layout/BaseLayout";
 import CustomInput from "../../components/customInput/customInput";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -7,6 +6,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase-config";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import AdminLayout from "../../components/layout/AdminLayout";
 
 const inputs = [
   { name: "fName", label: "First Name", placeholder: "Enter first name", type: "text", required: true },
@@ -76,7 +76,7 @@ const AdminSignup = () => {
   }
   return (
     <>
-      <BaseLayout>
+      <AdminLayout>
         <div className="p-3 border shadow rounded admin-form">
           <h1>Admin Signup</h1>
           <Form onSubmit={handleSubmit}>
@@ -89,7 +89,7 @@ const AdminSignup = () => {
             </Button>
           </Form>
         </div>
-      </BaseLayout>
+      </AdminLayout>
     </>
   )
 }

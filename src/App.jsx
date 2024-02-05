@@ -27,6 +27,7 @@ function App() {
 
         {/* Private routes */}
         <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
+        <Route path='/admin-signup' element={<PrivateRoute><AdminSignup /></PrivateRoute>}></Route>
 
         <Route path='/books' element={<PrivateRoute><Books /></PrivateRoute>}></Route>
         <Route path='/books/add' element={<PrivateRoute><AddBook /></PrivateRoute>}></Route>
