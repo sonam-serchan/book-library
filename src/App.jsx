@@ -33,7 +33,7 @@ function App() {
         <Route path='/books/add' element={<PrivateRoute><AddBook /></PrivateRoute>}></Route>
         <Route path='/books/edit/:id' element={<PrivateRoute><EditBook /></PrivateRoute>}></Route>
 
-        <Route path='/history' element={<PrivateRoute><History /></PrivateRoute>}></Route>
+        <Route path='/history' element={<PrivateRoute hasClientAccess={true}><History /></PrivateRoute>}></Route>
       </Routes>
     </>
   )

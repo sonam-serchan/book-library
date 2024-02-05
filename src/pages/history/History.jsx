@@ -1,27 +1,41 @@
 import { Button, Table } from "react-bootstrap";
 import AdminLayout from "../../components/layout/AdminLayout";
 import { useEffect } from "react";
-import { getBorrowHistoryListAction, updateBorrowHistoryAction } from "../../redux/borrowHistory/borrowHistoryAction";
+import { getBorrowHistoryListAction, getBorrowHistoryListByUserIdAction, updateBorrowHistoryAction } from "../../redux/borrowHistory/borrowHistoryAction";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../utils/dateTime";
+import { isAdmin } from "../../utils";
+import { updateBookAction } from "../../redux/books/bookAction";
 
 const History = () => {
   const dispatch = useDispatch()
   // select from the store
   const { borrowList } = useSelector(state => state.borrowHistory);
+  const { userInfo } = useSelector(state => state.auth);
 
   const handleBookReturned = (borrowHistory) => {
     dispatch(updateBorrowHistoryAction({
       ...borrowHistory,
       isReturned: true,
       availableFrom: Date.now()
-    })) 
+    }))
+
+    // update book - isAvailable - true
+    dispatch(updateBookAction({
+      id: borrowHistory.bookId,
+      isAvailable: true,
+      availableFrom: Date.now()
+    }))
   }
 
   // getting borrow history list from firebase
   useEffect(() => {
-    dispatch(getBorrowHistoryListAction())
+    if (isAdmin(userInfo)) {
+      dispatch(getBorrowHistoryListAction())
+    } else {
+      dispatch(getBorrowHistoryListByUserIdAction(userInfo.uid))
+    }
   }, [])
 
   return (
@@ -34,7 +48,7 @@ const History = () => {
             <th>Borrowed At</th>
             <th>Borrowed By</th>
             <th>Returned At</th>
-            <th>Action</th>
+            {isAdmin(userInfo) && <th>Action</th> }
           </tr>
         </thead>
         <tbody>
@@ -53,13 +67,14 @@ const History = () => {
                 }
                 <div>{formatDate(borrow.availableFrom)} </div>
               </td>
-              <td>
-                {borrow.isReturned ?
-                  <Button disabled>Mark as Returned</Button>
-                : <Button onClick={() => handleBookReturned(borrow)}>Mark as Returned</Button>
-                }
-                
-              </td>
+              {isAdmin(userInfo) &&
+                <td>    
+                    {borrow.isReturned ?
+                      <Button disabled>Mark as Returned</Button>
+                    : <Button onClick={() => handleBookReturned(borrow)}>Mark as Returned</Button>
+                  }
+                </td>
+              }
             </tr>
           ))}
         </tbody>
